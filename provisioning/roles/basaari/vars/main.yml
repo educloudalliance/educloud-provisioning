@@ -1,0 +1,4 @@
+basaar_user: 'vagrant'
+basaar_version: 'devel'
+basaar_home: '/home/{{ basaar_user }}/basaar'
+
