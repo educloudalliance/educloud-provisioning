@@ -37,7 +37,6 @@
   command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue_images {{ basaar_home }}/sites/basaar/fixtures/images.tar.gz"
   command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/us/fixtures/countries.json"
   command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/oscar/fixtures/countries.json"
-
   command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/_fixtures/pages.json"
   command: "{{ basaar_home }}/sites/basaar/manage.py clear_index --noinput"
   command: "{{ basaar_home }}/sites/basaar/manage.py update_index catalogue"
