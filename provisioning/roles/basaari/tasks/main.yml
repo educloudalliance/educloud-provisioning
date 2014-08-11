@@ -22,15 +22,23 @@
 #    - "{{ basaar_home }}/sites/basaar/public/static"
 #    - "{{ basaar_home }}/sites/basaar/db.sqlite"
 
-- name: Syncdb and initialize server
+- name: Syncdb
+  command: "{{ basaar_home }}/sites/basaar/manage.py schemamigration catalogue --initial"
   command: "{{ basaar_home }}/sites/basaar/manage.py syncdb --noinput"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py migrate"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata sites/basaar/fixtures/variants.json"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue sites/basaar/fixtures/*.csv"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue_images sites/basaar/fixtures/images.tar.gz"
-#  command: "{{ basaar_home }}/sites/manage.py loaddata countries.json sites/_fixtures/pages.json sites/_fixtures/auth.json sites/_fi$"
-#  command: "{{ basaar_home }}/sites/manage.py clear_index --noinput"
-#  command: "{{ basaar_home }}/sites/manage.py update_index catalogue"
 
-#- name: Start django server
-#  command: "{{ basaar_home }}/sites/manage.py runserver"
+- name: Migrate
+  command: "{{ basaar_home }}/sites/basaar/manage.py migrate --fake"
+
+- name: Populate
+  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/basaar/fixtures/variants.json"
+  command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue {{ basaar_home }}/sites/basaar/fixtures/*.csv"
+  command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue_images {{ basaar_home }}/sites/basaar/fixtures/images.tar.gz"
+  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/us/fixtures/countries.json"
+  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/oscar/fixtures/countries.json"
+
+  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/_fixtures/pages.json"
+  command: "{{ basaar_home }}/sites/manage.py clear_index --noinput"
+  command: "{{ basaar_home }}/sites/manage.py update_index catalogue"
+
+- name: Start django server
+  command: "{{ basaar_home }}/sites/manage.py runserver"
