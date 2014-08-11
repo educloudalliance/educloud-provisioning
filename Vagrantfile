@@ -2,6 +2,7 @@ Vagrant.configure("2") do |config|
   config.vm.box      = "hashicorp/precise64"
 
   config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
+  #config.vm.synced_folder "/mnt/basaar", "/home/vagrant/", id: "basaar"
   
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", 2048]

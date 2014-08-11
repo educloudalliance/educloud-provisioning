@@ -1,29 +1,36 @@
 # Setup and install basaari from Github
 
-- name: Checkout from git and enter
-  git: repo=https://github.com/koulutuksenpilvivayla/pilvivayla-basaari.git version={{ basaar_version }} dest={{ basaar_home }}
-
+- name: Checkout from git
+  git: repo=https://github.com/koulutuksenpilvivayla/pilvivayla-basaari.git version={{ basaar_version }} dest={{ basaar_home }} depth=1
 
 - name: Install requirements
-  pip: chdir={{ basaar_home }} requirements=pilvivayla-basaari/requirements.txt
+#  sudo: yes
+  pip: requirements={{ basaar_home }}/requirements.txt extra_args="--user"
 
-- name: Remove static files
-  file: chdir={{ basaar_home }} src={{ item }}  state=absent
-  with_items:
-    - pilvivayla-basaari/sites/basaar/public/media/images
-    - pilvivayla-basaari/sites/basaar/public/media/cache
-    - pilvivayla-basaari/sites/basaar/public/static
-    - pilvivayla-basaari/sites/basaar/db.sqlite
+- name: Remove unneeded requirements
+  command: "pip uninstall -y haystack"
+  command: "pip uninstall -y django-haystack"
+
+- name: Reinstall needed libraries
+  pip: name=django-haystack version=2.2.0 extra_args="--user"
+
+#- name: Remove static files
+#  file: src={{ item }}  state=absent
+#  with_items:
+#    - "{{ basaar_home }}/sites/basaar/public/media/images"
+#    - "{{ basaar_home }}/sites/basaar/public/media/cache"
+#    - "{{ basaar_home }}/sites/basaar/public/static"
+#    - "{{ basaar_home }}/sites/basaar/db.sqlite"
 
 - name: Syncdb and initialize server
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/manage.py syncdb --noinput
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/manage.py migrate
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/basaar/manage.py loaddata sites/basaar/fixtures/variants.json
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/basaar/manage.py oscar_import_catalogue sites/basaar/fixtures/*.csv
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/basaar/manage.py oscar_import_catalogue_images sites/basaar/fixtures/images.tar.gz
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/basaar/manage.py loaddata countries.json sites/_fixtures/pages.json sites/_fixtures/auth.json sites/_fi$
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/basaar/manage.py clear_index --noinput
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/basaar/manage.py update_index catalogue
+  command: "{{ basaar_home }}/sites/basaar/manage.py syncdb --noinput"
+#  command: "{{ basaar_home }}/sites/basaar/manage.py migrate"
+#  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata sites/basaar/fixtures/variants.json"
+#  command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue sites/basaar/fixtures/*.csv"
+#  command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue_images sites/basaar/fixtures/images.tar.gz"
+#  command: "{{ basaar_home }}/sites/manage.py loaddata countries.json sites/_fixtures/pages.json sites/_fixtures/auth.json sites/_fi$"
+#  command: "{{ basaar_home }}/sites/manage.py clear_index --noinput"
+#  command: "{{ basaar_home }}/sites/manage.py update_index catalogue"
 
-- name: Start django server
-  command: chdir={{ basaar_home }} pilvivayla-basaari/sites/manage.py runserver
+#- name: Start django server
+#  command: "{{ basaar_home }}/sites/manage.py runserver"
