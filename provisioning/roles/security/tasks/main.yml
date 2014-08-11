@@ -52,5 +52,8 @@
 - name: Add tomcat to ufw
   action: shell ufw allow 8080
 
+- name: Add django application to ufw
+  action: shell ufw allow 8000
+
 - name: Enable ufw
   action: shell echo 'y' | ufw enable
