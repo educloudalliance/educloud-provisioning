@@ -1,10 +1,8 @@
 # Setup and install basaari from Github
-
 - name: Checkout from git
   git: repo=https://github.com/koulutuksenpilvivayla/pilvivayla-basaari.git version={{ basaar_version }} dest={{ basaar_home }} depth=1
 
 - name: Install requirements
-#  sudo: yes
   pip: requirements={{ basaar_home }}/requirements.txt extra_args="--user"
 
 - name: Remove unneeded requirements
@@ -14,25 +12,13 @@
 - name: Reinstall needed libraries
   pip: name=django-haystack version=2.2.0 extra_args="--user"
 
-#- name: Remove static files
-#  file: src={{ item }}  state=absent
-#  with_items:
-#    - "{{ basaar_home }}/sites/basaar/public/media/images"
-#    - "{{ basaar_home }}/sites/basaar/public/media/cache"
-#    - "{{ basaar_home }}/sites/basaar/public/static"
-#    - "{{ basaar_home }}/sites/basaar/db.sqlite"
-
-#- name: Syncdb
-#  command: "{{ basaar_home }}/sites/basaar/manage.py syncdb --noinput"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py schemamigration catalogue --initial"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py migrate catalogue --fake"
-#  command: "{{ basaar_home }}/sites/basaar/manage.py migrate"
-
-- name: Syncdb dirtyhack
+- name: Syncdb
   shell: "/home/vagrant/basaar/sites/basaar/manage.py syncdb --noinput && /home/vagrant/basaar/sites/basaar/manage.py schemamigration catalogue --initial && /home/vagrant/basaar/sites/basaar/manage.py migrate catalogue --fake && /home/vagrant/basaar/sites/basaar/manage.py migrate"
 
+- name: Populate variants
+  django_manage: command=loaddata  app_path={{ basaar_base }} fixtures={{ fixtures_variants }}
+
 - name: Populate
-  command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/basaar/fixtures/variants.json"
   command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue {{ basaar_home }}/sites/basaar/fixtures/*.csv"
   command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue_images {{ basaar_home }}/sites/basaar/fixtures/images.tar.gz"
   command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/us/fixtures/countries.json"
@@ -40,6 +26,3 @@
   command: "{{ basaar_home }}/sites/basaar/manage.py loaddata {{ basaar_home }}/sites/_fixtures/pages.json"
   command: "{{ basaar_home }}/sites/basaar/manage.py clear_index --noinput"
   command: "{{ basaar_home }}/sites/basaar/manage.py update_index catalogue"
-
-- name: Start django server
-  command: "{{ basaar_home }}/sites/basaar/manage.py runserver"

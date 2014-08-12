@@ -1,6 +1,9 @@
 #!/bin/bash
 
 fail=false
+
+mkdir -p /mnt/basaar
+
 if ! which virtualbox &>/dev/null ; then
     echo "Virtualbox required" >&2
     echo "Install Virtualbox with sudo apt-get install virtualbox"
@@ -30,4 +33,15 @@ if $fail ; then
 fi
 
 vagrant destroy -f && vagrant up
-exit $?
+
+res=$?
+if [ $res -gt 0 ] ; then
+    exit $res
+fi
+
+echo "Basaar is successfully installed. To run server login to"
+echo "vagrant box using 'vagrant ssh' command and run command"
+echo "/home/vagrant/basaar/sites/basaar/manage.py runserver 0.0.0.0:8000"
+echo "Source code is located in host machine /mnt/basaar, you can use that"
+echo "with your favourite IDE. :-)"
+exit 0
