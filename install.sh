@@ -2,7 +2,10 @@
 
 fail=false
 
-mkdir -p /mnt/basaar
+if [ ! -d /mnt/basaar ] ; then
+    echo "Create folder /mnt/basaar"
+    fail=true
+fi
 
 if ! which virtualbox &>/dev/null ; then
     echo "Virtualbox required" >&2
@@ -12,7 +15,8 @@ fi
 
 if ! which vagrant &>/dev/null ; then
     echo "Vagrant required" >&2
-    echo "Install Vagrant with sudo apt-get install vagrant"
+    echo "Download latest vagrant from website http://www.vagrantup.com/downloads"
+    echo "and install."
     fail=true
 fi
 
