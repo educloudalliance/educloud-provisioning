@@ -11,12 +11,18 @@ if ! which virtualbox &>/dev/null ; then
     echo "Virtualbox required" >&2
     echo "Install Virtualbox with sudo apt-get install virtualbox"
     fail=true
+elif [ `vboxmanage --version | sed 's/_.*//' | tr -dc [:digit:]` -lt 4112 ] ; then
+    echo "Please update your virtualbox"
+    fail=true
 fi
 
 if ! which vagrant &>/dev/null ; then
     echo "Vagrant required" >&2
     echo "Download latest vagrant from website http://www.vagrantup.com/downloads"
     echo "and install."
+    fail=true
+elif [ `vagrant -v | sed 's/.*[ \t]//' | tr -dc [:digit:]` -lt 163 ] ; then
+    echo "Please update your vagrant"
     fail=true
 fi
 
@@ -29,6 +35,9 @@ fi
 if ! which ansible &>/dev/null ; then
     echo "Ansible required" >&2
     echo "Install Ansible with sudo pip install ansible"
+    fail=true
+elif [ `ansible --version | sed 's/.*[ \t]//' | tr -dc [:digit:]` -lt 17 ] ; then
+    echo "Please update your ansible"
     fail=true
 fi
 
