@@ -34,12 +34,17 @@ then your development environment is setup correctly.
 
 ## Normal usage
 
-If you already have installed the development environment, you can just cd to the repository where Vagrantfile is located and run command: vagrant up
+If you already have installed the development environment, you can just cd to the repository where Vagrantfile is located and run command: `vagrant up`
 
 Vagrant commands:
 * vagrant up (starts the virtual environment)
 * vagrant halt (stops the virtual environment)
 * vagrant reload (restarts the virtual environment)
+* vagrant ssh (access to virtual environemnt with ssh)
+
+# Start django server from virtual environment
+
+After you have installed and the vagrant box is running (`vagrant up` command) you can access to it with `vagrant ssh` command. When you're inside vagrant box, run `/home/vagrant/basaar/sites/basaar/manage.py runserver 0.0.0.0:8000` command. Then you can open browser from host machine and access to basaar application with url [http://localhost:8000](http://localhost:8000)
 
 # Source code
 
