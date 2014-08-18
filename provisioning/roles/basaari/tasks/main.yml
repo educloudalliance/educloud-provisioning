@@ -13,7 +13,7 @@
   pip: name=django-haystack version=2.2.0 extra_args="--user"
 
 - name: Syncdb
-  shell: "/home/vagrant/basaar/sites/basaar/manage.py syncdb --noinput && /home/vagrant/basaar/sites/basaar/manage.py schemamigration catalogue --initial && /home/vagrant/basaar/sites/basaar/manage.py migrate catalogue --fake && /home/vagrant/basaar/sites/basaar/manage.py migrate --fake"
+  shell: "/home/vagrant/basaar/sites/basaar/manage.py syncdb --noinput && /home/vagrant/basaar/sites/basaar/manage.py schemamigration catalogue --initial && /home/vagrant/basaar/sites/basaar/manage.py migrate catalogue --fake && /home/vagrant/basaar/sites/basaar/manage.py migrate"
 
 - name: Populate variants
   django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_variants }}
