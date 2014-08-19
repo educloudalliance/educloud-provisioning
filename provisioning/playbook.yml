@@ -7,6 +7,8 @@
     - apache
     - security
     - sqlite
+    - java
+    - solr
 
 - hosts: all
   roles:

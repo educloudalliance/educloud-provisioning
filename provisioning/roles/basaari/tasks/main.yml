@@ -12,20 +12,26 @@
 - name: Reinstall needed libraries
   pip: name=django-haystack version=2.2.0 extra_args="--user"
 
+- name: Install pysolr
+  pip: name=pysolr extra_args="--user"
+
 - name: Syncdb
-  shell: "/home/vagrant/basaar/sites/basaar/manage.py syncdb --noinput && /home/vagrant/basaar/sites/basaar/manage.py schemamigration catalogue --initial && /home/vagrant/basaar/sites/basaar/manage.py migrate catalogue --fake && /home/vagrant/basaar/sites/basaar/manage.py migrate"
+  shell: "/home/vagrant/basaar/sites/basaar/manage.py syncdb --noinput && /home/vagrant/basaar/sites/basaar/manage.py schemamigration catalogue --initial && /home/vagrant/basaar/sites/basaar/manage.py migrate catalogue --fake &&  /home/vagrant/basaar/sites/basaar/manage.py migrate --fake"
 
-- name: Populate variants
-  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_variants }}
+- name: Migrate promotions
+  shell: "/home/vagrant/basaar/sites/basaar/manage.py schemamigration promotions --initial && /home/vagrant/basaar/sites/basaar/manage.py migrate promotions"
 
-- name: Populate us countries
-  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_us_countries }}
+#- name: Populate variants
+#  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_variants }}
 
-- name: Populate oscar countries
-  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_oscar_countries }}
+#- name: Populate us countries
+#  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_us_countries }}
 
-- name: Populate pages
-  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_pages }}
+#- name: Populate oscar countries
+#  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_oscar_countries }}
+
+#- name: Populate pages
+#  django_manage: command=loaddata app_path={{ basaar_base }} fixtures={{ fixtures_pages }}
 
 - name: Populate
   command: "{{ basaar_home }}/sites/basaar/manage.py oscar_import_catalogue {{ basaar_home }}/sites/basaar/fixtures/*.csv"
