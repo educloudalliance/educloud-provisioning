@@ -11,6 +11,11 @@ These components needs to be installed to your host machine (computer that youâ€
 * pip (v. 1.0 or higher)
 * Ansible (v. 1.7 or higher)
 
+For Ubuntu 14.04 LTS:
+* Virtualbox 4.3.10_Ubuntur93012 (sudo apt-get install virtualbox)
+* Vagrant 1.6.3 ( https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb)
+* Ansible 1.7.1 (sudo pip install ansible)
+
 # Usage
 
 ## First time usage
