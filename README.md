@@ -20,12 +20,23 @@ For Ubuntu 14.04 LTS:
 
 ## First time usage
 
+Create folder that is synced with vagrant box. Vagrantfile automatically uses /mnt/basaar folder in your host machine.
+
+You can create folder using following command:
+
+`sudo mkdir -p /mnt/basaar`
+
+And then use chown command to change ownership to your user.
+
+`sudo chown -R <username> /mnt/basaar`
+
 To setup vagrantbox to your host machine, clone the repository
 
 `git clone https://github.com/koulutuksenpilvivayla/pilvivayla-provisioning.git`
 
 Run command from the repository root `./install.sh`
 The script will check that every requirements are satisfied.
+*No sudo required to run this script.*
 
 If you get message
 
