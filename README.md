@@ -36,7 +36,7 @@ To setup vagrantbox to your host machine, clone the repository
 
 Run command from the repository root `./install.sh`
 The script will check that every requirements are satisfied.
-_No sudo required to run this script._
+__No sudo required to run this script.__
 
 If you get message
 
